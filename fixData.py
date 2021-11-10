@@ -46,12 +46,16 @@ def fix(source_file_location, cleaned_data_file_location):
     # replace new data with old data
     data.drop('total_cases', axis=1, inplace=True)
     data.insert(3, 'total_cases', new_data[4], True)
+
     data.drop('total_deaths', axis=1, inplace=True)
     data.insert(4, 'total_deaths', new_data[3], True)
+
     data.drop('total_vaccinations', axis=1, inplace=True)
     data.insert(5, 'total_vaccinations', new_data[0], True)
+
     data.drop('people_vaccinated', axis=1, inplace=True)
     data.insert(6, 'people_vaccinated', new_data[1], True)
+
     data.drop('people_fully_vaccinated', axis=1, inplace=True)
     data.insert(7, 'people_fully_vaccinated', new_data[2], True)
 

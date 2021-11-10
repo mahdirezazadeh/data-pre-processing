@@ -4,6 +4,8 @@ from scipy.stats import ttest_ind
 
 
 def save_t_test(source_file_location, dest_file_location):
+    print('<---------T-Test--------->')
+    print('')
     data = pd.read_csv(source_file_location)
 
     people_fully_vaccinated_per_population = list(data['people_fully_vaccinated_per_population'])
@@ -23,16 +25,35 @@ def save_t_test(source_file_location, dest_file_location):
     df['T_test_people_fully_vaccinated_per_population_AND_total_cases_per_population'] = [
         t_test(people_fully_vaccinated_per_population, total_cases_per_population)]
 
+    print('T_test_people_fully_vaccinated_per_population_AND_total_cases_per_population: ')
+    print(
+        ttest_ind(people_fully_vaccinated_per_population, total_cases_per_population, equal_var=True))
+
     df['T_test_people_fully_vaccinated_per_population_AND_total_deaths_per_population'] = [
         t_test(people_fully_vaccinated_per_population, total_deaths_per_population)]
+
+    print('T_test_people_fully_vaccinated_per_population_AND_total_deaths_per_population: ')
+    print(
+        ttest_ind(people_fully_vaccinated_per_population, total_deaths_per_population, equal_var=True))
 
     df['T_test_people_fully_vaccinated_AND_total_cases'] = [
         t_test(people_fully_vaccinated, total_cases)]
 
+    print('T_test_people_fully_vaccinated_AND_total_cases: ')
+    print(
+        ttest_ind(people_fully_vaccinated, total_cases, equal_var=True))
+
     df['T_test_people_fully_vaccinated_AND_total_deaths'] = [
         t_test(people_fully_vaccinated, total_deaths)]
 
+    print('T_test_people_fully_vaccinated_AND_total_deaths: ')
+    print(
+        ttest_ind(people_fully_vaccinated, total_deaths, equal_var=True))
+
     df.to_csv(dest_file_location)
+    print('')
+    print('')
+    print('<------------t-test done!------------>')
 
 
 def t_test(arr1, arr2):
@@ -41,12 +62,6 @@ def t_test(arr1, arr2):
     df['second'] = arr2
     stds = df.std()
     means = [df['first'].mean(), df['second'].mean()]
-
-    # print(means)
-
     res = (means[0] - means[1]) / (sqrt((stds['first'] ** 2 / len(arr1)) * (stds['second'] ** 2 / len(arr2))))
-    print(res)
+    # print(res)
     return res
-
-# print(
-#     ttest_ind(people_fully_vaccinated_per_population, total_cases_per_population, equal_var=True))
