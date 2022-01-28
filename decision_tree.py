@@ -95,3 +95,8 @@ def regressor_directory(continent_data_directory, plots_output_directory):
             # regress(data, target, 20211031, DecisionTreeRegressor(), 'DecisionTree', plots_output_directory, data_file)
             # regress(data, target, 20211031, RandomForestRegressor(), 'RandomForest', plots_output_directory, data_file)
             regress(data, target, 20211031, MultinomialNB(), 'Multinomial', plots_output_directory, data_file)
+
+
+# def regressor_country(normalized_date_file_location, plots_output_directory):
+#     countries = []
+
