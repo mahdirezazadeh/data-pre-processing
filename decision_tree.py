@@ -92,11 +92,22 @@ def regressor_directory(continent_data_directory, plots_output_directory):
     for data_file in list_data:
         data = pd.read_csv(f'{continent_data_directory}{data_file}')
         for target in targets:
-            # regress(data, target, 20211031, DecisionTreeRegressor(), 'DecisionTree', plots_output_directory, data_file)
-            # regress(data, target, 20211031, RandomForestRegressor(), 'RandomForest', plots_output_directory, data_file)
+            regress(data, target, 20211031, DecisionTreeRegressor(), 'DecisionTree', plots_output_directory, data_file)
+            regress(data, target, 20211031, RandomForestRegressor(), 'RandomForest', plots_output_directory, data_file)
             regress(data, target, 20211031, MultinomialNB(), 'Multinomial', plots_output_directory, data_file)
 
 
-# def regressor_country(normalized_date_file_location, plots_output_directory):
-#     countries = []
+def regressor_location(normalized_date_file_location, plots_output_directory):
+    data = pd.read_csv(normalized_date_file_location)
+    countries = (data['location'].unique())
+    targets = ['total_cases', 'total_deaths', 'total_vaccinations', 'people_vaccinated', 'people_fully_vaccinated',
+               'new_cases', 'new_deaths', ]
 
+    for location in countries:
+        for target in targets:
+            regress(data.loc[data['location'] == location], target, 20211031, DecisionTreeRegressor(), 'DecisionTree',
+                    plots_output_directory, location)
+            regress(data.loc[data['location'] == location], target, 20211031, RandomForestRegressor(), 'RandomForest',
+                    plots_output_directory, location)
+            regress(data.loc[data['location'] == location], target, 20211031, MultinomialNB(), 'Multinomial',
+                    plots_output_directory, location)
