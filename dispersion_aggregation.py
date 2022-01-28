@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -6,12 +7,17 @@ def get_continent_aggregation(source_file_location, continent_data_directory):
     continents = (data['continent'].unique())
     for continent in continents:
         continent_data = data.loc[data['continent'] == continent]
+
         agg_cont_data = agg_continent_data(continent_data)
-        agg_cont_data = pd.DataFrame(agg_cont_data,
+        np_array = np.array(agg_cont_data)
+
+        agg_cont_data = pd.DataFrame(np_array.transpose(),
                                      columns=['date', 'total_cases', 'total_deaths', 'total_vaccinations',
                                               'people_vaccinated', 'people_fully_vaccinated', 'population',
                                               ])
-        agg_cont_data.to_csv(continent_data_directory + '/' + continent + '.csv', index=False)
+        print(f'{continent_data_directory}{continent}.csv')
+        agg_cont_data.sort_values(by=['date'], inplace=True)
+        agg_cont_data.to_csv(f'{continent_data_directory}{continent}.csv', index=False)
 
 
 def agg_continent_data(data):
@@ -33,13 +39,14 @@ def agg_continent_data(data):
         vaccinated = 0
         fully_vaccinated = 0
         population_ = 0
-        for details in data_per_date:
-            cases += details['total_cases']
-            deaths += details['total_deaths']
-            vaccinations += details['total_vaccinations']
-            vaccinated += details['people_vaccinated']
-            fully_vaccinated += details['people_fully_vaccinated']
-            population_ += details['population']
+
+        for i in range(len(data_per_date)):
+            cases += list(data_per_date['total_cases'])[i]
+            deaths += list(data_per_date['total_deaths'])[i]
+            vaccinations += list(data_per_date['total_vaccinations'])[i]
+            vaccinated += list(data_per_date['people_vaccinated'])[i]
+            fully_vaccinated += list(data_per_date['people_fully_vaccinated'])[i]
+            population_ += list(data_per_date['population'])[i]
 
         data.drop(data[data['date'] == date_].index, inplace=True)
 
@@ -51,7 +58,7 @@ def agg_continent_data(data):
         people_fully_vaccinated.append(fully_vaccinated)
         population.append(population_)
 
-    new_data = [[date], [total_cases], [total_deaths], [total_vaccinations], [people_vaccinated],
-                [people_fully_vaccinated], [population], ]
+    new_data = [date, total_cases, total_deaths, total_vaccinations, people_vaccinated,
+                people_fully_vaccinated, population, ]
 
     return new_data
