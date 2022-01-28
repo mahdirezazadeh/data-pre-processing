@@ -14,6 +14,7 @@ def get_continent_aggregation(source_file_location, continent_data_directory):
         agg_cont_data = pd.DataFrame(np_array.transpose(),
                                      columns=['date', 'total_cases', 'total_deaths', 'total_vaccinations',
                                               'people_vaccinated', 'people_fully_vaccinated', 'population',
+                                              'new_cases', 'new_deaths',
                                               ])
         print(f'{continent_data_directory}{continent}.csv')
         agg_cont_data.sort_values(by=['date'], inplace=True)
@@ -28,6 +29,8 @@ def agg_continent_data(data):
     people_vaccinated = []
     people_fully_vaccinated = []
     population = []
+    new_case = []
+    new_death = []
 
     data.drop('location', axis=1, inplace=True)
     dates = (data['date'].unique())
@@ -39,6 +42,8 @@ def agg_continent_data(data):
         vaccinated = 0
         fully_vaccinated = 0
         population_ = 0
+        n_case = 0
+        n_death = 0
 
         for i in range(len(data_per_date)):
             cases += list(data_per_date['total_cases'])[i]
@@ -47,6 +52,8 @@ def agg_continent_data(data):
             vaccinated += list(data_per_date['people_vaccinated'])[i]
             fully_vaccinated += list(data_per_date['people_fully_vaccinated'])[i]
             population_ += list(data_per_date['population'])[i]
+            n_case += list(data_per_date['new_cases'])[i]
+            n_death += list(data_per_date['new_deaths'])[i]
 
         data.drop(data[data['date'] == date_].index, inplace=True)
 
@@ -57,8 +64,10 @@ def agg_continent_data(data):
         people_vaccinated.append(vaccinated)
         people_fully_vaccinated.append(fully_vaccinated)
         population.append(population_)
+        new_case.append(n_case)
+        new_death.append(n_death)
 
     new_data = [date, total_cases, total_deaths, total_vaccinations, people_vaccinated,
-                people_fully_vaccinated, population, ]
+                people_fully_vaccinated, population, new_case, new_death]
 
     return new_data
