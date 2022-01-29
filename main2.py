@@ -11,6 +11,10 @@ plots_output_directory = 'plots'
 
 # dispersion_aggregation.get_continent_aggregation(normalized_date_file_location, continent_data_directory)
 
-# decision_tree.regressor_directory(continent_data_directory, plots_output_directory)
+decision_tree.regressor_directory(continent_data_directory, plots_output_directory)
 
 decision_tree.regressor_location(normalized_date_file_location, plots_output_directory)
+
+# decision_tree.regressor_directory_pre(continent_data_directory, plots_output_directory)
+
+# decision_tree.regressor_location_predict(normalized_date_file_location, plots_output_directory)
