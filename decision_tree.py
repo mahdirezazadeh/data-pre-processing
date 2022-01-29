@@ -154,7 +154,6 @@ def regressor_location_predict(normalized_date_file_location, plots_output_direc
     date_list = []
 
     for i in range(1, 31):
-        # feature_dates_pre['date'][len(feature_dates_pre.index)] = [feature_date_start + i]
         date_list.extend([feature_date_start + i])
 
     feature_dates_pre['date'] = date_list
